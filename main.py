@@ -19,17 +19,20 @@ for page in pages:
     webpage = requests.get(page)
     soup = bs(webpage.text, 'html.parser')
 
-    stock_table = soup.find('table', class_='tabMini tabQuotes')
-    tr_tag_list =each_tr_tag.find_all('td')
-    
-    for each_tr_tag in tr_tag_list[1:]:
-        td_tag_list = each_tr_tag.find_all('td')
+    if soup.find('table'):
+        stock_table = soup.find('table', class_='tabMini tabQuotes')
+        tr_tag_list = stock_table.find_all('tr')
+    # stock_table = soup.find('table', class_='tabMini tabQuotes')
+    # tr_tag_list =stock_table.find_all('tr')
 
-        row_values =[]
-        for each_td_tag in td_tag_list[0:7]:
-            new_value = each_td_tag.text.strip()
-            row_values.append(new_value)
-        values_list.append(row_values)
+        for each_tr_tag in tr_tag_list[1:]:
+            td_tag_list = each_tr_tag.find_all('td')
+
+            row_values =[]
+            for each_td_tag in td_tag_list[0:7]:
+                new_value = each_td_tag.text.strip()
+                row_values.append(new_value)
+            values_list.append(row_values)
 
 print(values_list)
 print('--- %s seconds ---' %(time.time()-start_time))
