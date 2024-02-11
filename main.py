@@ -6,7 +6,6 @@ start_time = time.time()
 
 pages = []
 
-
 for page_number in range(1,5):
 
     url_start = 'https://www.centralcharts.com/en/price-list-ranking/'
@@ -21,7 +20,8 @@ for page in pages:
     soup = bs(webpage.text, 'html.parser')
 
     stock_table = soup.find('table', class_='tabMini tabQuotes')
-
+    tr_tag_list =each_tr_tag.find_all('td')
+    
     for each_tr_tag in tr_tag_list[1:]:
         td_tag_list = each_tr_tag.find_all('td')
 
@@ -32,3 +32,4 @@ for page in pages:
         values_list.append(row_values)
 
 print(values_list)
+print('--- %s seconds ---' %(time.time()-start_time))
